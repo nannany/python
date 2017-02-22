@@ -39,7 +39,7 @@ while True:
             break
     else:
         for gateway in ei:
-            if node[gateway] != ():
+            if len(node[gateway]) != 0:
                 erase = node[gateway].pop()
                 print(str(gateway) + " " + str(erase))
                 break
