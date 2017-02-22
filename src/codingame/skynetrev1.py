@@ -25,18 +25,21 @@ for i in range(l):
         tmp = {n1}
         node.update({n2: tmp})
 
-print(node.values())
-
+ei = []
 for i in range(e):
-    ei = int(input())  # the index of a gateway node
+    ei.append(int(input()))  # the index of a gateway node
 
 # game loop
 while True:
     si = int(input())  # The index of the node on which the Skynet agent is positioned this turn
-
-    # Write an action using print
-    # To debug: print("Debug messages...", file=sys.stderr)
-
-
-    # Example: 0 1 are the indices of the nodes you wish to sever the link between
-    print("0 1")
+    for gateway in ei:
+        if si in node[gateway]:
+            print(str(si) + " " + str(gateway))
+            node[gateway].remove(si)
+            break
+    else:
+        for gateway in ei:
+            if node[gateway] != ():
+                erase = node[gateway].pop()
+                print(str(gateway) + " " + str(erase))
+                break
