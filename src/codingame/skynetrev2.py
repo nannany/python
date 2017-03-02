@@ -1,5 +1,6 @@
 import sys
 import math
+import copy
 
 # n: the total number of nodes in the level, including the gateways
 # l: the number of links
@@ -29,10 +30,17 @@ for i in range(e):
 # game loop
 while True:
     si = int(input())  # The index of the node on which the Skynet agent is positioned this turn
+    for gateway in ei:
+        tempnode = copy.deepcopy(node)
+        for target in tempnode[gateway]:
 
-    # Write an action using print
-    # To debug: print("Debug messages...", file=sys.stderr)
+'''
+node_info:ノード情報。辞書型、key:int、value:set
+target_node:対象ノード。int
+distance_info:ゲートからの距離情報。辞書型、key:int、value:int
+check_info:最短距離導出済みか否か。set
+'''
+def get_distance(node_info,target_node,distance_info,check_info):
+    target_set = node_info[target_node]
+    target_set.remove(target_node)
 
-
-    # Example: 3 4 are the indices of the nodes you wish to sever the link between
-    print("3 4")
