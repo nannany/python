@@ -4,13 +4,11 @@ y = list(map(int, input().split()))
 
 sum_x = 0
 for i in range(0, n):
-    tmp_x = x[i]
-    sum_x += sum(list(filter(lambda ele: ele > 0, (map(lambda ele: ele - tmp_x, x)))))
+    sum_x += i * x[i] - (n - (i + 1)) * x[i]
 
 sum_y = 0
 for i in range(0, m):
-    tmp_y = y[i]
-    sum_y += sum(list(filter(lambda ele: ele > 0, (map(lambda ele: ele - tmp_y, y)))))
+    sum_y += i * y[i] - (m - (i + 1)) * y[i]
 
 ans = sum_x * sum_y
 
