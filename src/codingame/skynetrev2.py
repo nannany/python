@@ -33,14 +33,18 @@ while True:
     for gateway in ei:
         tempnode = copy.deepcopy(node)
         for target in tempnode[gateway]:
+            distance_info = {}
+            check_info = set()
+            get_distance(tempnode,target,distance_info,check_info)
 
 '''
 node_info:ノード情報。辞書型、key:int、value:set
-target_node:対象ノード。int
+que:対象ノード。set
 distance_info:ゲートからの距離情報。辞書型、key:int、value:int
 check_info:最短距離導出済みか否か。set
 '''
-def get_distance(node_info,target_node,distance_info,check_info):
-    target_set = node_info[target_node]
-    target_set.remove(target_node)
-
+def get_distance(node_info,que,distance_info,check_info):
+    next_que = set()
+    for ele in que:
+        next_que.add(ele)
+        
