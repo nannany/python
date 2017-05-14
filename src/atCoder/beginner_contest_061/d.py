@@ -9,8 +9,8 @@ def min_path(_s):
     d[_s] = 0
     while True:
         update = False
-        for i in range(0, M):
-            edge = abc[i]
+        for k in range(0, M):
+            edge = abc[k]
             if d[edge.fromE - 1] != float("inf") and d[edge.to - 1] > d[edge.fromE - 1] + edge.cost:
                 d[edge.to - 1] = d[edge.fromE - 1] + edge.cost
                 update = True
