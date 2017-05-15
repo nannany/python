@@ -13,7 +13,7 @@ def compress(_x1, _x2, _w):
     xs = list(set(xs))
     xs.sort()
 
-    # for i in range(0, N):
+    for i in range(0, N):
 
 
 if __name__ == '__main__':
