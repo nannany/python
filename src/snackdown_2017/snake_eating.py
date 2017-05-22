@@ -1,6 +1,14 @@
 from collections import deque
 import copy
 
+
+def C(_mid):
+    if _mid < len(L) and L[_mid] <= K:
+        return True
+    else:
+        return False
+
+
 T = int(input())
 for i in range(T):
     N, Q = list(map(int, input().split()))
@@ -9,24 +17,23 @@ for i in range(T):
 
     for j in range(Q):
         K = int(input())
-        target = copy.deepcopy(L)
         ans = 0
-        k = 0
-        while True:
-            if K <= target[k]:
-                ans += 1
-                target.pop(k)
-                if len(target) <= k:
-                    break
+
+        lb = 0
+        ub = 1000000000
+
+        while ub - lb > 1:
+            mid = int((ub + lb) / 2)
+            if C(mid):
+                lb = mid
             else:
-                if len(target) - 1 == k:
-                    break
-                else:
-                    k += 1
+                ub = mid
+
+        ans += len(L) - (lb + 1)
 
         que = deque()
-        for num in target:
-            que.append(num)
+        for k in range(0, lb + 1):
+            que.append(L[k])
 
         while len(que) != 0:
             eater = que.pop()
