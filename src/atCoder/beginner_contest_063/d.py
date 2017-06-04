@@ -1,3 +1,6 @@
+import math
+
+
 def C(_mid):
     tmp = [x - B * _mid for x in h]
     explode_count = 0
@@ -5,7 +8,7 @@ def C(_mid):
         if tmp[i] <= 0:
             pass
         else:
-            explode_count += int(tmp[i] / (A - B))
+            explode_count += math.ceil(tmp[i] / (A - B))
 
     if _mid < explode_count:
         return True
@@ -27,4 +30,4 @@ if __name__ == '__main__':
         else:
             ub = mid
 
-    print(lb)
+    print(ub)
