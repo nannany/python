@@ -1,37 +1,46 @@
 N, M, Q = list(map(int, input().split()))
 S = [list(map(int, list(input()))) for i in range(N)]
 
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
+accum_sum_black = []
+accum_sum_edge_x = []
+accum_sum_edge_y = []
+for i in range(0, N):
+    adding = 0
+    for j in range(0, M):
+        if S[i][j] == 1:
+            adding += 1
+            accum_sum_black.append(adding)
+        else:
+            accum_sum_black.append(adding)
 
+for i in range(0, N):
+    adding = 0
+    before = False
+    for j in range(0, M):
+        if before and S[i][j] == 1:
+            adding += 1
+            accum_sum_edge_x.append(adding)
+        elif S[i][j] == 1:
+            accum_sum_edge_x.append(adding)
+            before = True
+        else:
+            accum_sum_edge_x.append(adding)
+            before = False
 
-def dfs(_x, _y):
-    target_map[_x][_y] = 0
-    for l in range(0, 4):
-        nx = _x + dx[l]
-        ny = _y + dy[l]
-        if 0 <= nx <= tmp_N and 0 <= ny <= tmp_M and target_map[nx][ny] == 1:
-            dfs(nx, ny)
-
+for j in range(0, M):
+    adding = 0
+    before = False
+    for i in range(0, N):
+        if before and S[i][j] == 1:
+            adding += 1
+            accum_sum_edge_y.append(adding)
+        elif S[i][j] == 1:
+            accum_sum_edge_y.append(adding)
+            before = True
+        else:
+            accum_sum_edge_y.append(adding)
+            before = False
 
 for i in range(Q):
     x1, y1, x2, y2 = list(map(int, input().split()))
-
-    target_map = []
-    for j in range(x1 - 1, x2):
-        tmp_list = []
-        for k in range(y1 - 1, y2):
-            tmp_list.append(S[j][k])
-        target_map.append(tmp_list)
-
-    res = 0
-    tmp_N = x2 - x1
-    tmp_M = y2 - y1
-
-    for j in range(0, tmp_N + 1):
-        for k in range(0, tmp_M + 1):
-            if target_map[j][k] == 1:
-                dfs(j, k)
-                res += 1
-
-    print(res)
+    sum_of_black = 0

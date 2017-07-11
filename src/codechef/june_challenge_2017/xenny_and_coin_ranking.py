@@ -4,5 +4,6 @@ if __name__ == '__main__':
         U, V = list(map(int, input().split()))
         n = U + V
 
-        ans = int(int(int(int(n) * int(n + 1)) / 2) + int(U)) + 1
+        ans = int(int(int(n * int(n + 1)) / 2) + U) + 1
         print(ans)
+
