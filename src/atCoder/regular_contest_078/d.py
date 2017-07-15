@@ -13,23 +13,40 @@ class P:
         self.v = v
 
 
-def dijkstra(_s):
-    que = queue.Queue()
+# def dijkstra(_s):
+#     que = queue.Queue()
+#     global d
+#     d = [float("inf") for i in range(N)]
+#     d[_s] = 0
+#     que.put(P(0, _s))
+#
+#     while not que.empty():
+#         p = que.get()
+#         v = p.v
+#         if d[v] < p.distance:
+#             continue
+#         for i in range(0, len(G[v])):
+#             e = G[v][i]
+#             if d[e.to] > d[v] + e.cost:
+#                 d[e.to] = d[v] + e.cost
+#                 que.put(P(d[e.to], e.to))
+
+def bfs(_s):
+    q = queue.Queue()
     global d
     d = [float("inf") for i in range(N)]
+    used = [False for i in range(N)]
+    used[_s] = True
     d[_s] = 0
-    que.put(P(0, _s))
+    q.put(_s)
 
-    while not que.empty():
-        p = que.get()
-        v = p.v
-        if d[v] < p.distance:
-            continue
-        for i in range(0, len(G[v])):
-            e = G[v][i]
-            if d[e.to] > d[v] + e.cost:
-                d[e.to] = d[v] + e.cost
-                que.put(P(d[e.to], e.to))
+    while not q.empty():
+        p = q.get()
+        for i in range(0, len(G[p])):
+            if not used[G[p][i]]:
+                used[G[p][i]] = True
+                d[G[p][i]] = d[p] + 1
+                q.put(G[p][i])
 
 
 if __name__ == '__main__':
@@ -43,16 +60,18 @@ if __name__ == '__main__':
 
     G = [[] for i in range(N)]
     for i in range(0, N - 1):
-        G[a[i]].append(Edge(b[i], 1))
-        G[b[i]].append(Edge(a[i], 1))
+        # G[a[i]].append(Edge(b[i], 1))
+        # G[b[i]].append(Edge(a[i], 1))
+        G[a[i]].append(b[i])
+        G[b[i]].append(a[i])
 
     # Fennec
     global d
-    dijkstra(0)
+    bfs(0)
     Fennec_d = d
 
     # sunuke
-    dijkstra(N - 1)
+    bfs(N - 1)
     sunuke_d = d
 
     for i in range(0, len(Fennec_d)):
@@ -72,7 +91,7 @@ if __name__ == '__main__':
         else:
             Fennec_count += 1
 
-    if sunuke_count<Fennec_count:
+    if sunuke_count < Fennec_count:
         print("Fennec")
     else:
         print("Snuke")
