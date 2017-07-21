@@ -3,8 +3,6 @@ import math
 
 # union find。初期化
 def init(_n):
-    par = [0 for i in range(_n)]
-    rank = [0 for i in range(_n)]
     for i in range(0, _n):
         par[i] = i
         rank[i] = 0
@@ -52,7 +50,7 @@ def sieve(_n):
     prime_or_not[0] = prime_or_not[1] = False
     for i in range(2, _n + 1):
         if prime_or_not[i]:
-            prime[p] = i
+            prime.append(i)
             p += 1
             for j in range(2 * i, _n + 1, i):
                 prime_or_not[j] = False
@@ -70,10 +68,9 @@ if __name__ == '__main__':
         A, B, P = list(map(int, input().split()))
 
         len = B - A + 1
+        par = [0 for i in range(len)]
+        rank = [0 for i in range(len)]
         init(len)
-        par = []
-        rank = []
-
         for i in range(0, p):
             if prime[i] >= P:
                 start = int((A + prime[i] - 1) / prime[i]) * prime[i]
@@ -86,4 +83,4 @@ if __name__ == '__main__':
             if find(i - A) == i - A:
                 res += 1
 
-        print(res)
+        print("Case #{0:d}: {1:d}".format(caseNo, res))
