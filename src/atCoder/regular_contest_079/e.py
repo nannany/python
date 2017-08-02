@@ -15,7 +15,7 @@ if __name__ == '__main__':
     while check(a):
         sum_num = 0
         for i in range(0, N):
-            tmp = int(a[i] / N)
+            tmp = a[i] // N
             divide_num[i] = tmp
             sum_num += tmp
             ans += tmp
