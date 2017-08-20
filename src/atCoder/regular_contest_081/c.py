@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
         for i in range(tmp_count):
             A.remove(tmp)
-
+    #
     square_ans = tmp_max_square * tmp_max_square
     rectan_ans = tmp_max_dup_1 * tmp_max_dup_2
     if square_ans < rectan_ans:
