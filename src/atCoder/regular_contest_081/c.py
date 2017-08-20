@@ -2,35 +2,21 @@ if __name__ == '__main__':
     N = int(input())
     A = list(map(int, input().split()))
 
-    tmp_max_square = 0
-    tmp_max_dup_1 = 0
-    tmp_max_dup_2 = 0
-    while len(A) != 0:
-        tmp = A[0]
-        tmp_count = A.count(tmp)
-        # print(tmp_count)
-        if tmp_count >= 4:
-            if tmp_max_square < tmp:
-                tmp_max_square = tmp
+    A.sort(reverse=True)
 
-            if tmp_max_dup_2 < tmp < tmp_max_dup_1:
-                tmp_max_dup_2 = tmp
-            elif tmp_max_dup_1 <= tmp:
-                tmp_max_dup_2 = tmp_max_dup_1
-                tmp_max_dup_1 = tmp
-        elif tmp_count >= 2:
-            if tmp_max_dup_2 < tmp < tmp_max_dup_1:
-                tmp_max_dup_2 = tmp
-            elif tmp_max_dup_1 <= tmp:
-                tmp_max_dup_2 = tmp_max_dup_1
-                tmp_max_dup_1 = tmp
+    v = []
+    while len(A) > 1:
+        if len(v) == 2:
+            break
 
-        for i in range(tmp_count):
-            A.remove(tmp)
-    #
-    square_ans = tmp_max_square * tmp_max_square
-    rectan_ans = tmp_max_dup_1 * tmp_max_dup_2
-    if square_ans < rectan_ans:
-        print(rectan_ans)
+        if A[0] == A[1]:
+            v.append(A[0])
+            A.pop(0)
+            A.pop(0)
+        else:
+            A.pop(0)
+
+    if len(v) == 1 or len(v) == 0:
+        print(0)
     else:
-        print(square_ans)
+        print(v[0] * v[1])
