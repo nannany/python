@@ -1,5 +1,6 @@
 import os
-from apiclient import discovery
+
+from googleapiclient import discovery
 from oauth2client import tools
 from oauth2client import client
 from oauth2client.file import Storage
@@ -43,15 +44,15 @@ def main():
     credentials = get_credential()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('gmail', 'v1', http=http)
-    results = service.users().labels().list(userId='me').execute()
-    labels = results.get('labels', [])
+    results = service.users().messages().list(userId='me').execute()
+    labels = results.get('messages', [])
 
     if not labels:
         print('No labels found.')
     else:
         print('Labels:')
         for label in labels:
-            print(label['name'])
+            print(label['nextPageToken'])
 
 
 if __name__ == '__main__':
