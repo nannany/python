@@ -3,15 +3,16 @@ import string
 if __name__ == '__main__':
     A = input()
 
+    # 一番最初に該当のアルファベットが出てくるindexを保持。
     p = {}
     for x in string.ascii_lowercase:
         p[x] = len(A)
     # print(p)
     '''
     tb
-    1つ目：
+    1つ目：以降にa~zがいくつ存在するか+1
     2つ目：アルファベット
-    3つ目：
+    3つ目：次のSの最初の文字があるindex
     '''
     tb = [(0, 0, 0)] * len(A)
     tb.append((1, 0, 0))
