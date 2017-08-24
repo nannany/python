@@ -1,4 +1,4 @@
-class DistinctGridEasy:
+class DistinctGridEasy :
     def checkGrid(self, n, k, grid):
         for i in range(0, n):
             tmp_row = grid[n * i:n * (i + 1)]
