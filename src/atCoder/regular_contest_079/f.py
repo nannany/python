@@ -40,6 +40,7 @@ if __name__ == '__main__':
     # S:辺を出してないものリスト
     S = [p for p in range(N) if D[p] == 0]
 
+    # 各頂点に持たせる値
     L = [None] * N
 
     # Dに閉路のみ残すようにする。
@@ -81,14 +82,13 @@ if __name__ == '__main__':
     s1, s2 = helper(start)
     G = []
     n = P[start]
+    # 閉路に関して、それぞれの頂点で（最小の数、2番目に小さい数） を G に入れていく。
     while n != start:
         G.append(helper(n))
         n = P[n]
 
-    # del N, P, D, child_L, S, L
-
     # 可能な初期値をそれぞれシミュレート
-    # 1
+    # grundy数と仮定した場合。一周まわって、向き先がその値でなければよい。
     n = s1
     for g in G:
         if g[0] == n:
@@ -99,7 +99,7 @@ if __name__ == '__main__':
         print('POSSIBLE')
         exit()
 
-    # 2
+    # 2番目に小さい数と仮定した場合。一周まわって、向き先がgrundy数であればよい。
     n = s2
     for g in G:
         if g[0] == n:
