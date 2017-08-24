@@ -16,7 +16,7 @@ class DistinctGridEasy:
 
 
 if __name__ == '__main__':
-    tes = DistinctGridEasy
+    tes = DistinctGridEasy()
     n = int(input())
     k = int(input())
     grid = list(input().split())
