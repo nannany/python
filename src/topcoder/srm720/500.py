@@ -1,3 +1,4 @@
-import MinProduct
+import MinProduct as mp
 if __name__ == '__main__':
-    MinProduct.findMin()
+    tes = mp.MinProduct()
+
