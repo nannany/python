@@ -14,44 +14,46 @@ if __name__ == '__main__':
     sign = -1
     '''
     ある時刻を切り取り、横軸を最初のAの砂の量、縦軸をその時の砂の量とする。
-    a:傾き始め
-    b:傾き終わり
+    s:傾き始め
+    e:傾き終わり
     c:切片
     '''
-    a = 0
-    b = X
+    s = 0
+    e = X
     c = 0
     # 出入りする砂の量
     sand_quantity = [r[0]]
     for i in range(1, K):
         sand_quantity.append(r[i] - r[i - 1])
 
+    chasm_time = 0
     for i in range(Q):
         # t:時刻 a:初期に A に入っている砂の量
-        t, ini_sand = list(map(int, input().split()))
+        t, a = list(map(int, input().split()))
         while j < K and r[j] < t:
             c += sign * sand_quantity[j]
-            c = max(min(c, X), -X)
-            # aについて更新
-            if a < -c:
-                a = -c
-            # bについて更新
-            if X - c < b:
-                b = X - c
-
+            c = max(min(X, c), -X)
+            # sについて更新
+            if s < -c:
+                s = -c
+                if e < s:
+                    s = e
+            # eについて更新
+            if X - c < e:
+                e = X - c
+                if e < s:
+                    e = s
+            chasm_time = r[j]
             j += 1
             sign *= -1
 
-        if j == 0:
-            tmp_time = t
-        else:
-            tmp_time = t - r[j - 1]
+        tmp_time = t - chasm_time
 
-        if ini_sand < a:
+        if a < s:
+            print(max(min(s + c + tmp_time * sign, X), 0))
+        elif a < e:
             print(max(min(a + c + tmp_time * sign, X), 0))
-        elif ini_sand < b:
-            print(max(min(ini_sand + c + tmp_time * sign, X), 0))
         else:
-            print(max(min(b + c + tmp_time * sign, X), 0))
+            print(max(min(e + c + tmp_time * sign, X), 0))
 
-            # print("a:" + str(a) + " b:" + str(b) + " c:" + str(c))
+        # print("s:" + str(s) + " e:" + str(e) + " c:" + str(c) + " a:" + str(a))
