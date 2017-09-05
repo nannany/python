@@ -1,3 +1,12 @@
+def calc_ans(x):
+    if x < 0:
+        return 0
+    elif x < X:
+        return x
+    else:
+        return X
+
+
 if __name__ == '__main__':
     # 砂の合計量
     X = int(input())
@@ -12,16 +21,9 @@ if __name__ == '__main__':
     # r の制御のための変数
     j = 0
     sign = -1
-    '''
-    ある時刻を切り取り、横軸を最初のAの砂の量、縦軸をその時の砂の量とする。
-    s:傾き始め
-    e:傾き終わり
-    c:切片
-    '''
     s = 0
     e = X
-    c = 0
-    # 出入りする砂の量
+    y = 0
     sand_quantity = [r[0]]
     for i in range(1, K):
         sand_quantity.append(r[i] - r[i - 1])
@@ -31,18 +33,22 @@ if __name__ == '__main__':
         # t:時刻 a:初期に A に入っている砂の量
         t, a = list(map(int, input().split()))
         while j < K and r[j] < t:
-            c += sign * sand_quantity[j]
-            c = max(min(X, c), -X)
+            y += sign * sand_quantity[j]
             # sについて更新
-            if s < -c:
-                s = -c
+            if y < 0:
+                s += -y
                 if e < s:
                     s = e
+                y = 0
             # eについて更新
-            if X - c < e:
-                e = X - c
+            if X < y + e - s:
+                tmp_diff = (y + e - s) - X
+                e -= tmp_diff
                 if e < s:
                     e = s
+            if X < y:
+                y = X
+
             chasm_time = r[j]
             j += 1
             sign *= -1
@@ -50,10 +56,13 @@ if __name__ == '__main__':
         tmp_time = t - chasm_time
 
         if a < s:
-            print(max(min(s + c + tmp_time * sign, X), 0))
+            ret = y
         elif a < e:
-            print(max(min(a + c + tmp_time * sign, X), 0))
+            ret = y + a - s
         else:
-            print(max(min(e + c + tmp_time * sign, X), 0))
+            ret = y + e - s
 
-        # print("s:" + str(s) + " e:" + str(e) + " c:" + str(c) + " a:" + str(a))
+        ret += tmp_time * sign
+
+        print(calc_ans(ret))
+        # print("s:" + str(s) + " e:" + str(e) + " y:" + str(y) + " a:" + str(a) + " ret:" + str(ret))
