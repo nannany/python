@@ -17,10 +17,12 @@ def it():
         yield ((b, a), c)
 
 
+
 G.update(it())
+print(G)
 
 D = ss.csgraph.floyd_warshall(G.tocsr(), directed=False)
-
+print(D)
 
 def it2():
     from itertools import permutations
