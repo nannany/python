@@ -1,8 +1,6 @@
 def dfs(i, b, c):
-    if i == 10:
-        b_sort = sorted(b)
-        c_sort = sorted(c)
-        return (b == b_sort and c == c_sort)
+    if i == 11:
+        return (b == sorted(b) and c == sorted(c))
 
     if dfs(i + 1, b + [balls[i - 1]], c):
         return True
@@ -17,7 +15,7 @@ if __name__ == '__main__':
     N = int(input())
     for i in range(N):
         balls = list(map(int, input().split()))
-        if dfs(1, [0], [0]):
+        if dfs(1, [], []):
             print("YES")
         else:
             print("NO")
