@@ -1,31 +1,25 @@
-from collections import deque
-
 colors = ["R", "B", "Y", "G"]
 
 if __name__ == '__main__':
     H, W, d = list(map(int, input().split()))
 
-    que = deque()
+    ans = [["" for j in range(W)] for i in range(H)]
+    for i in range(0, H):
+        for j in range(0, W):
+            # 45度変換後の値、x,y
+            x = i - j
+            y = i + j
 
-    possibility = [[[] for i in range(W)] for j in range(H)]
-    searched = [[False for i in range(W)] for j in range(H)]
+            if 1 <= x % (2 * d) <= d:
+                if 1 <= y % (2 * d) <= d:
+                    ans[i][j] = "R"
+                else:
+                    ans[i][j] = "B"
+            else:
+                if 1 <= y % (2 * d) <= d:
+                    ans[i][j] = "Y"
+                else:
+                    ans[i][j] = "G"
 
-    # (0,0) は赤で考える
-    possibility[0][0].extend(["B", "Y", "G"])
-    searched[0][0] = True
-    print(possibility)
-    print(searched)
-    for i in range(0, d + 1):
-        if 0 <= i <= W - 1 and 0 <= d - i <= H - 1:
-            que.append((i, d - i, "R"))
-
-    while len(que) != 0:
-        tmp_h, tmp_w, color = que.popleft()
-        if searched[tmp_h][tmp_w]:
-            continue
-
-        possibility[tmp_h][tmp_w].append(color)
-        searched[tmp_h][tmp_w] = True
-
-        for i in range(-d, d + 1):
-            que.append()
+    for tmpans in ans:
+        print("".join(tmpans))
