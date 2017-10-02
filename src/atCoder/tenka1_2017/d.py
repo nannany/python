@@ -1,15 +1,37 @@
+import math
+
 if __name__ == '__main__':
     N, K = list(map(int, input().split()))
-    integers = {}
+    integer_value = []
     for i in range(N):
         integer, value = list(map(int, input().split()))
-        if integer in integers:
-            if integers[integer] < value:
-                integers[integer] = value
-        else:
-            integers[integer] = value
+        integer_value.append((integer, value))
+    r = int(math.log(K, 2))
+    max_value = 0
+    for i in range(r + 1):
+        # print((K >> i) & 0b1)
+        if not ((K >> i) & 0b1):
+            continue
 
-    # print(integers)
+        tmp_sum = 0
+        for tmp_int, tmp_val in integer_value:
+            print(K - (1 << i))
+            if tmp_int < (1 << i):
+                tmp_sum += tmp_val
+            elif (K >> (i + 1)) | ((tmp_int >> (i + 1)) == (K >> (i + 1))):
+                tmp_sum += tmp_val
+        print(str(tmp_sum) + " " + str(i))
+        if max_value < tmp_sum:
+            max_value = tmp_sum
 
-    K_bit = str(bin(K))[2:]
-    # print(K_bit)
+    # K の場合
+    K_val = 0
+    for tmp_int, tmp_val in integer_value:
+        if K | tmp_int == K:
+            K_val += tmp_val
+    print("max_val" + str(max_value))
+    print("K_val" + str(K_val))
+    if K_val < max_value:
+        print(max_value)
+    else:
+        print(K_val)
