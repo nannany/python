@@ -10,6 +10,7 @@ if __name__ == '__main__':
     combi_x = list(itertools.combinations(plots, 2))
     combi_y = list(itertools.combinations(plots, 2))
     menseki = float('inf')
+
     for x1, x2 in combi_x:
         for y1, y2 in combi_y:
             left_x = min(x1[0], x2[0], y1[0], y2[0])
