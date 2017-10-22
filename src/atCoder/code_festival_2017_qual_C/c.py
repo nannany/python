@@ -30,14 +30,13 @@ if __name__ == '__main__':
             continue
         elif s_list[target] == "x":
             s_rev_list.insert(target, "x")
-            s_list.insert(-(target + 1), "x")
+            s_list.insert(len(s_list) - target, "x")
             ans += 1
             target += 1
         elif s_rev_list[target] == "x":
             s_list.insert(target, "x")
-            s_rev_list.insert(-(target + 1), "x")
+            s_rev_list.insert(len(s_rev_list) - target, "x")
             ans += 1
             target += 1
-
 
     print(ans)
