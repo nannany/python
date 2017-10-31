@@ -3,7 +3,7 @@ if __name__ == '__main__':
     T = list(input())
 
     num = -1
-    for i in range(len(S) - len(T)):
+    for i in range(len(S) - len(T) + 1):
         flg = True
         for j in range(1, len(T) + 1):
             if S[-(i + j)] == "?":
