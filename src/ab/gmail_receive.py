@@ -49,9 +49,13 @@ def get_credential():
 def main():
     # 認証情報入れる
     credentials = get_credential()
+    # httplib2.Http()で作られたHTTPへ、認証情報をヘッダに付与する
     http = credentials.authorize(httplib2.Http())
+    #
     service = discovery.build('gmail', 'v1', http=http)
-    results = service.users().labels().list(userId='me').execute()
+    #
+    results = service.users().threads().list(userId='me').execute()
+    print(results)
     labels = results.get('labels', [])
 
     if not labels:
