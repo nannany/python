@@ -1,4 +1,5 @@
 import paramiko
+import pwn
 
 if __name__ == '__main__':
     host = 'ctfq.sweetduet.info'
