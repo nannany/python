@@ -13,6 +13,7 @@ if __name__ == '__main__':
 
     stdin, stdout, stderr = client.exec_command('ls -l')
 
+
     for o in stdout:
         print(o)
 
