@@ -3,6 +3,8 @@ import socket
 from contextlib import closing
 import re
 import math
+import sympy
+
 
 def main():
     host = 'sdp01.3dsctf.org'
@@ -38,8 +40,10 @@ def main():
               target_digit:使う桁
               '''
                 ans = ""
-
-                one = str(target_digit) + "/" + str(target_digit)
+                if target_digit == 1:
+                    one = "1"
+                else:
+                    one = str(target_digit) + "/" + str(target_digit)
                 ele = "("
                 for _ in range(round(math.sqrt(target_ans)) // target_digit):
                     ele += str(target_digit) + "+"
@@ -70,6 +74,23 @@ def main():
                     else:
                         for _ in range(-round(target_ans / target_digit) * target_digit + target_ans):
                             ans += "+" + one
+
+                if len(ans) > 31:
+                    ans = ""
+                    factors = sympy.factorint(target_ans)
+                    for fact, num in factors.items():
+                        ele = "("
+                        for _ in range(fact // target_digit):
+                            ele += str(target_digit) + "+"
+                        for _ in range(fact % target_digit):
+                            ele += one + "+"
+
+                        ele = ele[:-1] + ")"
+
+                        for _ in range(num):
+                            ans += ele + "*"
+
+                    ans = ans[:-1]
 
                 print(ans)
                 sock.send(ans.encode('utf-8'))
