@@ -4,7 +4,6 @@ from contextlib import closing
 import re
 import math
 
-
 def main():
     host = 'sdp01.3dsctf.org'
     port = 8003
@@ -40,78 +39,40 @@ def main():
               '''
                 ans = ""
 
-                if target_digit == 1:
-                    for i in range(math.floor(math.log2(target_ans))):
-                        ans += "(1+1)*"
+                one = str(target_digit) + "/" + str(target_digit)
+                ele = "("
+                for _ in range(round(math.sqrt(target_ans)) // target_digit):
+                    ele += str(target_digit) + "+"
+                for _ in range(round(math.sqrt(target_ans)) % target_digit):
+                    ele += one + "+"
+                ele = ele[:-1]
+                ele += ")"
+                ans += ele + "*" + ele
+                if round(math.sqrt(target_ans)) ** 2 - target_ans > 0:
+                    for _ in range((round(math.sqrt(target_ans)) ** 2 - target_ans) // target_digit):
+                        ans += "-" + str(target_digit)
+                    for _ in range((round(math.sqrt(target_ans)) ** 2 - target_ans) % target_digit):
+                        ans += "-" + one
+                else:
+                    for _ in range((-round(math.sqrt(target_ans)) ** 2 + target_ans) // target_digit):
+                        ans += "+" + str(target_digit)
+                    for _ in range((-round(math.sqrt(target_ans)) ** 2 + target_ans) % target_digit):
+                        ans += "+" + one
+
+                if len(ans) > 31:
+                    ans = ""
+                    for _ in range(round(target_ans / target_digit)):
+                        ans += str(target_digit) + "+"
                     ans = ans[:-1]
-                    for i in range(target_ans - 2 ** math.floor(math.log2(target_ans))):
-                        ans += "+1"
-                    if len(ans) > 31:
-                        ans = ""
-                        ele = "("
-                        for j in range(round(math.sqrt(target_ans))):
-                            ele += "1+"
-                        ele = ele[:-1]
-                        ele += ")"
-                        ans += ele + "*" + ele
-                        if round(math.sqrt(target_ans)) ** 2 - target_ans > 0:
-                            for k in range(round(math.sqrt(target_ans)) ** 2 - target_ans):
-                                ans += "-1"
-                        else:
-                            for k in range(target_ans - round(math.sqrt(target_ans)) ** 2):
-                                ans += "+1"
-
-                    print(ans)
-                    sock.send(ans.encode('utf-8'))
-                    continue
-
-                if target_digit == 2:
-                    one = "2/2"
-                    ele = "("
-                    for _ in range(round(math.sqrt(target_ans)) // 2):
-                        ele += "2+"
-                    if round(math.sqrt(target_ans)) % 2 == 1:
-                        ele += one + "+"
-                    ele = ele[:-1]
-                    ele += ")"
-                    ans += ele + "*" + ele
-                    if round(math.sqrt(target_ans)) ** 2 - target_ans > 0:
-                        for _ in range((round(math.sqrt(target_ans)) ** 2 - target_ans) // 2):
-                            ans += "-2"
-                        if (round(math.sqrt(target_ans)) ** 2 - target_ans) % 2 == 1:
-                            ans += "-2/2"
+                    if round(target_ans / target_digit) * target_digit - target_ans > 0:
+                        for _ in range(round(target_ans / target_digit) * target_digit - target_ans):
+                            ans += "-" + one
                     else:
-                        for _ in range((-round(math.sqrt(target_ans)) ** 2 + target_ans) // 2):
-                            ans += "+2"
-                        if (-round(math.sqrt(target_ans)) ** 2 + target_ans) % 2 == 1:
-                            ans += "+2/2"
-                    print(ans)
-                    sock.send(ans.encode('utf-8'))
-                    continue
-
-                if target_digit == 9:
-                    if round(target_ans / 9) - target_ans / 9 > 0:
-                        for i in range(round(target_ans / 9)):
-                            ans += "9+"
-                        ans = ans[:-1]
-                        for i in range(round(target_ans / 9) * 9 - target_ans):
-                            ans += "-9/9"
-
-                        print(ans)
-                        sock.send(ans.encode('utf-8'))
-                        continue
-
-                for i in range(target_ans // target_digit):
-                    ans += str(target_digit) + '+'
-
-                for i in range(target_ans % target_digit):
-                    ans += str(target_digit) + "/" + str(target_digit) + "+"
-
-                ans = ans[:-1]
+                        for _ in range(-round(target_ans / target_digit) * target_digit + target_ans):
+                            ans += "+" + one
 
                 print(ans)
                 sock.send(ans.encode('utf-8'))
-        return
 
 
 if __name__ == '__main__':
