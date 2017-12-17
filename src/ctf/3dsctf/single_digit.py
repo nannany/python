@@ -48,10 +48,43 @@ def main():
                         ans += "+1"
                     if len(ans) > 31:
                         ans = ""
-                        for i in range(math.floor(math.log(target_ans,3))):
-                            ans += "(1+1+1)*"
-                        ans = ans[:-1]
+                        ele = "("
+                        for j in range(round(math.sqrt(target_ans))):
+                            ele += "1+"
+                        ele = ele[:-1]
+                        ele += ")"
+                        ans += ele + "*" + ele
+                        if round(math.sqrt(target_ans)) ** 2 - target_ans > 0:
+                            for k in range(round(math.sqrt(target_ans)) ** 2 - target_ans):
+                                ans += "-1"
+                        else:
+                            for k in range(target_ans - round(math.sqrt(target_ans)) ** 2):
+                                ans += "+1"
 
+                    print(ans)
+                    sock.send(ans.encode('utf-8'))
+                    continue
+
+                if target_digit == 2:
+                    one = "2/2"
+                    ele = "("
+                    for _ in range(round(math.sqrt(target_ans)) // 2):
+                        ele += "2+"
+                    if round(math.sqrt(target_ans)) % 2 == 1:
+                        ele += one + "+"
+                    ele = ele[:-1]
+                    ele += ")"
+                    ans += ele + "*" + ele
+                    if round(math.sqrt(target_ans)) ** 2 - target_ans > 0:
+                        for _ in range((round(math.sqrt(target_ans)) ** 2 - target_ans) // 2):
+                            ans += "-2"
+                        if (round(math.sqrt(target_ans)) ** 2 - target_ans) % 2 == 1:
+                            ans += "-2/2"
+                    else:
+                        for _ in range((-round(math.sqrt(target_ans)) ** 2 + target_ans) // 2):
+                            ans += "+2"
+                        if (-round(math.sqrt(target_ans)) ** 2 + target_ans) % 2 == 1:
+                            ans += "+2/2"
                     print(ans)
                     sock.send(ans.encode('utf-8'))
                     continue
