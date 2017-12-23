@@ -6,6 +6,32 @@ import math
 import sympy
 
 
+def get_ans(_target_ans):
+    ans = ""
+    ele = "("
+    global one
+    global target_digit
+    for _ in range(round(math.sqrt(_target_ans)) // target_digit):
+        ele += str(target_digit) + "+"
+    for _ in range(round(math.sqrt(_target_ans)) % target_digit):
+        ele += one + "+"
+    ele = ele[:-1]
+    ele += ")"
+    ans += ele + "*" + ele
+    if round(math.sqrt(_target_ans)) ** 2 - _target_ans > 0:
+        for _ in range((round(math.sqrt(_target_ans)) ** 2 - _target_ans) // target_digit):
+            ans += "-" + str(target_digit)
+        for _ in range((round(math.sqrt(_target_ans)) ** 2 - _target_ans) % target_digit):
+            ans += "-" + one
+    else:
+        for _ in range((-round(math.sqrt(_target_ans)) ** 2 + _target_ans) // target_digit):
+            ans += "+" + str(target_digit)
+        for _ in range((-round(math.sqrt(_target_ans)) ** 2 + _target_ans) % target_digit):
+            ans += "+" + one
+
+    return ans
+
+
 def main():
     host = 'sdp01.3dsctf.org'
     port = 8003
@@ -33,35 +59,21 @@ def main():
                 print(m.group(1))
                 target_ans = int(m.group(1))
                 print(m.group(2))
+                global target_digit
                 target_digit = int(m.group(2))
 
                 '''
               target_ans:だす答え
               target_digit:使う桁
               '''
-                ans = ""
+                # oneの定義をする
+                global one
                 if target_digit == 1:
                     one = "1"
                 else:
                     one = str(target_digit) + "/" + str(target_digit)
-                ele = "("
-                for _ in range(round(math.sqrt(target_ans)) // target_digit):
-                    ele += str(target_digit) + "+"
-                for _ in range(round(math.sqrt(target_ans)) % target_digit):
-                    ele += one + "+"
-                ele = ele[:-1]
-                ele += ")"
-                ans += ele + "*" + ele
-                if round(math.sqrt(target_ans)) ** 2 - target_ans > 0:
-                    for _ in range((round(math.sqrt(target_ans)) ** 2 - target_ans) // target_digit):
-                        ans += "-" + str(target_digit)
-                    for _ in range((round(math.sqrt(target_ans)) ** 2 - target_ans) % target_digit):
-                        ans += "-" + one
-                else:
-                    for _ in range((-round(math.sqrt(target_ans)) ** 2 + target_ans) // target_digit):
-                        ans += "+" + str(target_digit)
-                    for _ in range((-round(math.sqrt(target_ans)) ** 2 + target_ans) % target_digit):
-                        ans += "+" + one
+
+                ans = get_ans(target_ans)
 
                 if len(ans) > 31:
                     ans = ""
@@ -79,14 +91,16 @@ def main():
                     ans = ""
                     factors = sympy.factorint(target_ans)
                     for fact, num in factors.items():
-                        ele = "("
-                        for _ in range(fact // target_digit):
-                            ele += str(target_digit) + "+"
-                        for _ in range(fact % target_digit):
-                            ele += one + "+"
+                        if fact < 11:
+                            ele = "("
+                            for _ in range(fact // target_digit):
+                                ele += str(target_digit) + "+"
+                            for _ in range(fact % target_digit):
+                                ele += one + "+"
 
-                        ele = ele[:-1] + ")"
-
+                            ele = ele[:-1] + ")"
+                        else:
+                            ele = "(" + get_ans(fact) + ")"
                         for _ in range(num):
                             ans += ele + "*"
 
