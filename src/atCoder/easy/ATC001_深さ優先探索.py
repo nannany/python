@@ -21,15 +21,16 @@ def dfs(_y, _x):
 
 if __name__ == '__main__':
     H, W = map(int, input().split())
-    c = [list(input()) for _ in range(H)]
-
-    y = 0
-    for letters in c:
-        if "s" in letters:
-            x = letters.index("s")
-            break
-
-        y += 1
+    c = [[] for _ in range(H)]
+    for i in range(H):
+        c[i] = list(input())
+        try:
+            tmp = c[i].index('s')
+        except:
+            tmp = -1
+        if tmp > -1:
+            x = tmp
+            y = i
 
     if dfs(y, x):
         print("Yes")
