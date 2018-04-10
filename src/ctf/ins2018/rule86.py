@@ -9,7 +9,7 @@ def main():
     key = []
     for enc, dec in zip(encryped_data, decryped_data):
         key.append(enc ^ dec)
-
+    print(key)
     e_super_cipher = open('super_cipher.py.enc', 'rb').read()
 
     d_super_cipher = []
