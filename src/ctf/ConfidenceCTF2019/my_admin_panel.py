@@ -1,4 +1,4 @@
-    import requests
+import requests
 
 url = 'https://gameserver.zajebistyc.tf/admin/login.php'
 s = requests.Session()
